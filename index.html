@@ -24,14 +24,20 @@
         myCanvas.height = innerHeight
         const ctx = myCanvas.getContext("2d")
 
-        const G = {x:0, y:0.01}
-        const flag = new Flag({})
+        const G = {x:0, y:0.05}
+        const W = {x:0, y:0}
+        let sep = 30
+        const flag = new Flag({left : 0, top:0, width:Math.round(innerWidth/sep), height:Math.round(innerHeight/sep), sep})
 
+        let lastTime = 0
         animate();
-        function animate(){
+        function animate(currentTime){
+            let dt = (currentTime-lastTime)
+            if(!(dt > 0)) dt = 1
+            lastTime = currentTime
             ctx.clearRect(0,0, myCanvas.width, myCanvas.height)
             flag.draw(ctx)
-            flag.update()
+            flag.update(dt)
             requestAnimationFrame(animate)
         }
     </script>

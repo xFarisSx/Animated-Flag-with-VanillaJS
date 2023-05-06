@@ -3,47 +3,26 @@ class Particle{
         this.loc = loc
         this.oldLoc = loc
         this.fixed = fixed
-        this.vx = 0
-        this.vy = 0
-        this.ax = 0
-        this.ay = G.y
-        this.m = 1
-        this.airKs = 0.001
-        this.face = 1
+        this.a = 100
     }
-
-    airFriction(){
-        let fy = Math.abs(this.ay) * this.m;
-        let fsy = this.face * this.airKs * (this.vy * this.vy);
-    
-        if (this.ay > 0) {
-          this.ay = (fy - fsy) / this.m;
-        } else {
-          this.ay = -1 * ((fy - fsy) / this.m);
-        }
-    
-        let fx = Math.abs(this.ax) * this.m;
-        let fsx = this.face * this.airKs * (this.vx * this.vx);
-        if (this.ax > 0) {
-          this.ax = (fx - fsx) / this.m;
-        } else {
-          this.ax = -1 * ((fx - fsx) / this.m);
-        }
-    }
-    update(){
+    update(dt){
         if(!this.fixed){
-            // const vel = subtract(this.loc, this.oldLoc)
-            // const newLoc = add( add(this.loc , vel),G)
-            // this.oldLoc = this.loc
-            // this.loc = newLoc
-            this.loc.y+=this.vy
-            this.loc.x+=this.vx
-            this.vx+=this.ax 
-            this.vy+=this.ay 
-            this.airFriction()
+            if(this.a > 0.05){
+                this.a = this.a/1.02
+            }
+           let G = {x:Math.sqrt(Math.abs(this.loc.x-innerWidth/2))/this.a, y:Math.sqrt(Math.abs((this.loc.y-innerHeight/2)))/this.a}
+           if(!(this.loc.x-innerWidth/2<0)){
+            G.x*=-1
+           }
+           if(!(this.loc.y-innerHeight/2<0)){
+            G.y*=-1
+           }
+            const vel = subtract(this.loc, this.oldLoc)
+            const newLoc = add(add( add(this.loc , vel),G), W)
+            this.oldLoc = this.loc
+            this.loc = newLoc
 
         }
-        // if(this.ax)
     }
 
     draw(ctx){
