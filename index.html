@@ -18,26 +18,31 @@
     <script src="math.js"></script>
     <script src="segment.js"></script>
     <script src="particle.js"></script>
+    <script src="polygon.js"></script>
     <script src="flag.js"></script>
     <script>
         myCanvas.width = innerWidth
         myCanvas.height = innerHeight
         const ctx = myCanvas.getContext("2d")
 
-        const G = {x:0, y:0.05}
-        const W = {x:0, y:0}
-        let sep = 30
-        const flag = new Flag({left : 0, top:0, width:Math.round(innerWidth/sep), height:Math.round(innerHeight/sep), sep})
+        const G = {x:0, y:0.01}
+        const maxWind = 0.01
+        const  minWind = -0.0
+        const W= {x:maxWind, y:0}
 
-        let lastTime = 0
+        // ctx.shadowOffsetX = 5
+        // ctx.shadowOffsetY = 5
+        // ctx.shadowColor = "rgba(0,0,0,0.3)"
+        // ctx.shadowBlur = 10
+        setInterval(function(){
+                W.x = lerp(-minWind, maxWind, Math.random())
+            }, 1000)
+            const flag = new Flag({})
         animate();
-        function animate(currentTime){
-            let dt = (currentTime-lastTime)
-            if(!(dt > 0)) dt = 1
-            lastTime = currentTime
-            ctx.clearRect(0,0, myCanvas.width, myCanvas.height)
+        function animate(){
+            ctx.clearRect(0, 0, myCanvas.width, myCanvas.height)
             flag.draw(ctx)
-            flag.update(dt)
+            flag.update()
             requestAnimationFrame(animate)
         }
     </script>

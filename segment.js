@@ -16,7 +16,7 @@ class Segment {
   update(dt) {
     this.len = distance(this.pA.loc, this.pB.loc);
     const diff = subtract(this.pA.loc, this.pB.loc);
-    const delta = (this.len - this.oldLen)/16;
+    const delta = (this.len - this.oldLen);
     const norm = normalize(diff);
 
     if (this.pA.fixed) {

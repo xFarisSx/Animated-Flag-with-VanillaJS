@@ -1,3 +1,7 @@
+function random(max, min){
+    return Math.random()*(max-min)+min
+}
+
 function lerp(min, max, t) {
   return min + (max - min) * t;
 }
